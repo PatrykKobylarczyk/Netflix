@@ -2,20 +2,23 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import useAuth from '../hooks/useAuth'
 
 const Login = () => {
   const [login, setLogin] = useState(false);
+  const { signIn, signUp } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
+    console.log(data)
     if (login) {
-      await signIn( email,password )
+      await signIn(data.email, data.password);
     } else {
-      await signUp( email,password )
+      await signUp(data.email, data.password);
     }
   };
 
@@ -28,13 +31,15 @@ const Login = () => {
 
       <Image
         src="https://rb.gy/p2hphi"
-        layout="fill"
+        alt="background"
+        style="fill"
         className="-z-10 !hidden opacity-60 sm:!inline"
         objectFit="cover"
       />
 
       <img
         src="https://rb.gy/ulxxee"
+        alt="logo netflix"
         width={165}
         height={165}
         className="absolute left-6 top-6 cursor-pointer object-contain md:left-10 md:top-6"

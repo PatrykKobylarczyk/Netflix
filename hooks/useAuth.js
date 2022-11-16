@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
   const [initialLoading, setInitialLoading] = useState(true);
   const router = useRouter();
 
-
   //Persisting the user
   useEffect(
     () =>
@@ -93,7 +92,7 @@ export const AuthProvider = ({ children }) => {
       signIn,
       logout,
     }),
-    { user, loading }
+    [user, loading]
   );
 
   return (
@@ -103,3 +102,8 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// Export the `useAuth` hook instead of the context.
+// I want to use the hook directly and never the context comopnent.
+export default function useAuth() {
+  return useContext(AuthContext);
+}
