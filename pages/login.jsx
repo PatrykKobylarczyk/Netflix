@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from '../hooks/useAuth'
@@ -32,7 +32,7 @@ const Login = () => {
       <Image
         src="https://rb.gy/p2hphi"
         alt="background"
-        style="fill"
+        layout="fill"
         className="-z-10 !hidden opacity-60 sm:!inline"
         objectFit="cover"
       />
