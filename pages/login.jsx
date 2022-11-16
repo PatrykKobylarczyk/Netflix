@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+
 const Login = () => {
   const [login, setLogin] = useState(false);
   const {
@@ -10,7 +11,13 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    if (login) {
+      await signIn( email,password )
+    } else {
+      await signUp( email,password )
+    }
+  };
 
   return (
     <div className="relative h-screen flex flex-col bg-black md:items-center md:justify-center md:bg-transparent px-3">
@@ -44,28 +51,43 @@ const Login = () => {
               type="email"
               placeholder="Email"
               className="input"
-              {...register("email", {required: true})}
+              {...register("email", { required: true })}
             />
-            {errors.email && <p className="p-1 text-[13px] text-orange-500">Please enter a valid email.</p>}
+            {errors.email && (
+              <p className="p-1 text-[13px] text-orange-500">
+                Please enter a valid email.
+              </p>
+            )}
           </label>
           <label className="inline-block w-full">
             <input
               type="password"
               placeholder="Password"
               className="input"
-              {...register("password", {required: true})}
+              {...register("password", { required: true })}
             />
-            {errors.password && <p className="p-1 text-[13px] text-orange-500">Your password must contain between 4 and 60 characters.</p>}
+            {errors.password && (
+              <p className="p-1 text-[13px] text-orange-500">
+                Your password must contain between 4 and 60 characters.
+              </p>
+            )}
           </label>
         </div>
 
-        <button className="w-full rounded bg-[#e50914] py-3 font-semibold">
+        <button
+          className="w-full rounded bg-[#e50914] py-3 font-semibold"
+          onClick={() => setLogin(true)}
+        >
           Sign in
         </button>
 
         <div className="text-[gray]">
           New to Netflix?{"  "}
-          <button type="submit" className="text-white hover:underline">
+          <button
+            type="submit"
+            className="text-white hover:underline"
+            onClick={() => setLogin(false)}
+          >
             Sign up now<span className="text-[gray]">.</span>
           </button>
         </div>

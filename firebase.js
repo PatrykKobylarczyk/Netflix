@@ -19,6 +19,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
+// getApps() - A (read-only) array of all initialized apps.
+// getApp() - Retrieves a FirebaseApp instance.
+
 const db = getFirestore()
 const auth = getAuth()
 
