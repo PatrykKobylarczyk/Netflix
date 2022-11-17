@@ -81,34 +81,34 @@ const Modal = () => {
             playing
             muted={muted}
           />
-          <div className="absolute bottom-10 flex w-full items-center justify-between px-10">
+          <div className="absolute bottom-4 lg:bottom-10 flex w-full items-center justify-between px-10">
             <div className="flex items-center space-x-2">
-              <button className="flex items-center gap-x-2 rounded bg-white px-8 py-3 text-xl font-bold text-black transition hover:bg-[#e6e6e6]">
-                <FaPlay className="w-7 h-7 text-black" />
+              <button className="flex items-center gap-x-2 rounded bg-white px-3 py-1.5 lg:px-8 lg:py-3 text-sm lg:text-lg font-bold text-black transition hover:bg-[#e6e6e6]">
+                <FaPlay className="w-3 h-3 lg:w-7 lg:h-7 text-black" />
                 Play
               </button>
 
-              <button className="modalButton">
-                <PlusIcon className="w-7 h-7" />
+              <button className="modalButton w-8 h-8 lg:w-11 lg:h-11">
+                <PlusIcon className="w-4 h-4 lg:w-7 lg:h-7" />
               </button>
 
-              <button className="modalButton">
-                <ThumbUpIcon className="w-7 h-7" />
+              <button className="modalButton w-8 h-8 lg:w-11 lg:h-11">
+                <ThumbUpIcon className="w-4 h-4 lg:w-7 lg:h-7" />
               </button>
             </div>
-            <button className="modalButton" onClick={() => setMuted(!muted)}>
+            <button className="modalButton w-8 h-8 lg:w-11 lg:h-11" onClick={() => setMuted(!muted)}>
               {muted ? (
-                <VolumeOffIcon className="w-6 h-6" />
+                <VolumeOffIcon className="w-4 h-4 lg:w-6 lg:h-6" />
               ) : (
-                <VolumeUpIcon className="w-6 h-6" />
+                <VolumeUpIcon className="w-4 h-4 lg:w-6 lg:h-6" />
               )}
             </button>
           </div>
         </div>
 
         <div className="flex space-x-16 rounded-b-md px-10 py-8">
-          <div className="space-y-6 text-lg">
-            <div className="flex items-center space-x-2 text-sm">
+          <div className="space-y-6 text-xs md:text-lg">
+            <div className="flex items-center space-x-2">
               <p className="font-semibold text-green-400">
                 {movie.vote_average * 10}% Match
               </p>
@@ -122,7 +122,7 @@ const Modal = () => {
 
             <div className="flex flex-col gap-x-10 gap-y-4 font-light md:flex-row">
               <p className="w-3/4">{movie?.overview}</p>
-              <div className="flex flex-col space-y-3 text-sm">
+              <div className="flex flex-col space-y-2 mt-2">
                 <div>
                   <span className="text-[gray]">Genres: </span>
                   {genres.map((genre) => genre.name).join(", ")}
