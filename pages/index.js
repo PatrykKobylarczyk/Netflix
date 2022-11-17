@@ -1,12 +1,16 @@
 import Head from "next/head";
+import useAuth from "../hooks/useAuth";
 
 // COMPONENTS
 import Header from "../components/Header";
 import Banner from "../components/Banner";
+import Row from "../components/Row";
+import Modal from "../components/Modal";
 
 //OTHERS
 import requests from "../utils/requests";
-import Row from "../components/Row";
+import { useRecoilValue } from "recoil";
+import { modalState } from "../atoms/modalAtom";
 
 const Home = ({
   netflixOriginals,
@@ -18,6 +22,12 @@ const Home = ({
   topRated,
   trendingNow,
 }) => {
+  const { loading } = useAuth();
+  const showModal = useRecoilValue(modalState);
+
+  //for slow internet connection
+  if (loading) return null;
+
   return (
     <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
@@ -43,7 +53,7 @@ const Home = ({
         </section>
       </main>
 
-      {/* modal */}
+      {showModal && <Modal />}
     </div>
   );
 };
