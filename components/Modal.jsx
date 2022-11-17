@@ -17,7 +17,7 @@ const Modal = () => {
   const [movie, setMovie] = useRecoilState(movieState);
   const [trailer, setTrailer] = useState("");
   const [genres, setGenres] = useState([]);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     if (!movie) return;
@@ -79,6 +79,7 @@ const Modal = () => {
               pointerEvents: "none",
             }}
             playing
+            playsinline
             muted={muted}
           />
           <div className="absolute bottom-4 lg:bottom-10 flex w-full items-center justify-between px-10">
