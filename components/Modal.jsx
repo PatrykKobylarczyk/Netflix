@@ -111,7 +111,7 @@ const Modal = () => {
           <div className="space-y-6 text-xs md:text-lg">
             <div className="flex items-center space-x-2">
               <p className="font-semibold text-green-400">
-                {movie.vote_average * 10}% Match
+                {(movie.vote_average * 10).toFixed(0)}% Match
               </p>
               <p className="font-light">
                 {movie?.release_date || movie?.first_air_date}
