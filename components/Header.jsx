@@ -25,6 +25,7 @@ const Header = () => {
       <div className="flex items-center space-x md:space-x-10">
         <img
           src="https://rb.gy/ulxxee"
+          alt='Netflix'
           width={100}
           height={100}
           className="cursor-pointer object-contain"
@@ -46,7 +47,7 @@ const Header = () => {
         <Link href="/account" onClick={logout}>
           <img
             src="https://rb.gy/g1pwyx"
-            alt=""
+            alt="account"
             className="cursor-pointer rounded"
           />
         </Link>

@@ -11,6 +11,7 @@ import Modal from "../components/Modal";
 import requests from "../utils/requests";
 import { useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtom";
+import Plans from "../components/Plans";
 
 const Home = ({
   netflixOriginals,
@@ -24,12 +25,21 @@ const Home = ({
 }) => {
   const { loading } = useAuth();
   const showModal = useRecoilValue(modalState);
+  const subscritpion = false
 
   //for slow internet connection
-  if (loading) return null;
+  if (loading || subscritpion === null) return null;
+
+  if(!subscritpion) return <Plans/>
+  
+
 
   return (
-    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
+    <div
+      className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${
+        showModal ? "!h-screen overflow-hidden" : ""
+      }`}
+    >
       <Head>
         <title>Home - Netflix</title>
         <meta name="description" content="Netflix clone built with Next.js" />
