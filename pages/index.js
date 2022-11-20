@@ -12,6 +12,8 @@ import requests from "../utils/requests";
 import { useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtom";
 import Plans from "../components/Plans";
+import { getProducts } from "@stripe/firestore-stripe-payments";
+import payments from '../lib/stripe';
 
 const Home = ({
   netflixOriginals,
@@ -22,17 +24,17 @@ const Home = ({
   romanceMovies,
   topRated,
   trendingNow,
+  products,
 }) => {
+  console.log(products);
   const { loading } = useAuth();
   const showModal = useRecoilValue(modalState);
-  const subscritpion = false
+  const subscritpion = false;
 
   //for slow internet connection
   if (loading || subscritpion === null) return null;
 
-  if(!subscritpion) return <Plans/>
-  
-
+  if (!subscritpion) return <Plans />;
 
   return (
     <div
@@ -71,6 +73,13 @@ const Home = ({
 export default Home;
 
 export const getServerSideProps = async () => {
+  const products = await getProducts(payments, {
+    includePrices: true,
+    activeOnly: true,
+  })
+    .then((res) => res)
+    .catch((err) => console.log(err.message));
+
   const [
     netflixOriginals,
     trendingNow,
@@ -101,6 +110,7 @@ export const getServerSideProps = async () => {
       horrorMovies: horrorMovies.results,
       romanceMovies: romanceMovies.results,
       documentaries: documentaries.results,
+      products,
     },
   };
 };
