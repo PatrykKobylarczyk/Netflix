@@ -13,7 +13,7 @@ import { useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtom";
 import Plans from "../components/Plans";
 import { getProducts } from "@stripe/firestore-stripe-payments";
-import payments from '../lib/stripe';
+import payments from "../lib/stripe";
 
 const Home = ({
   netflixOriginals,
@@ -26,15 +26,16 @@ const Home = ({
   trendingNow,
   products,
 }) => {
-  console.log(products);
   const { loading } = useAuth();
   const showModal = useRecoilValue(modalState);
   const subscritpion = false;
+  
 
   //for slow internet connection
   if (loading || subscritpion === null) return null;
 
-  if (!subscritpion) return <Plans />;
+  if (!subscritpion) return <Plans products={products} />;
+
 
   return (
     <div

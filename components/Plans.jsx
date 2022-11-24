@@ -1,11 +1,14 @@
+import React, { useState } from "react";
 import { Link } from "@mui/material";
 import Head from "next/head";
-import React from "react";
 import useAuth from "../hooks/useAuth";
 import PlanBenefits from "./PlanBenefits";
-
-const Plans = () => {
+import Table from "./Table";
+import Loader from "./Loader";
+const Plans = ({ products }) => {
   const { logout } = useAuth();
+  const [selectedPlan, setSelectedPlan] = useState(products[2]);
+  const [isBillingLoading, setBillingLoading] = useState(false);
 
   return (
     <div>
@@ -30,7 +33,7 @@ const Plans = () => {
         </button>
       </header>
 
-      <main className="max-w-5xl px-5 pt-28 pb-12 transition-all md:px-10">
+      <main className="mx-auto max-w-5xl px-5 pt-28 pb-12 transition-all md:px-10">
         <h1 className="mb-3 text-3xl font-medium">
           Choose the plan that's right for you
         </h1>
@@ -41,14 +44,34 @@ const Plans = () => {
         </ul>
         <div className="mt-4 flex flex-col space-y-4">
           <div className="flex w-full items-center justify-center self-end md:w-3/5">
-            <div className="planBox">Standard</div>
-            <div className="planBox">Standard</div>
-            <div className="planBox">Standard</div>
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className={`planBox ${
+                  selectedPlan.id === product.id ? "opacity-100" : "opacity-60"
+                }`}
+                onClick={() => setSelectedPlan(product)}
+              >
+                {product.name}
+              </div>
+            ))}
           </div>
 
-          {/* <Table/> */}
+          <Table products={products} selectedPlan={selectedPlan} />
 
-          <button>Subscribe</button>
+          <button
+            disabled={!selectedPlan || isBillingLoading}
+            className={`mx-auto w-11/12 rounded bg-[#E50914] py-4 text-xl shadow hover:bg-[#f6121d] md:w-[420px] ${
+              isBillingLoading && "opacity-60"
+            }`}
+            // onClick={subscribeToPlan}
+          >
+            {isBillingLoading ? (
+              <Loader color="text-gray-300" />
+            ) : (
+              "Subscribe"
+            )}
+          </button>
         </div>
       </main>
     </div>
