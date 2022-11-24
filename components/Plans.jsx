@@ -5,10 +5,18 @@ import useAuth from "../hooks/useAuth";
 import PlanBenefits from "./PlanBenefits";
 import Table from "./Table";
 import Loader from "./Loader";
+import { loadCheckout } from "../lib/stripe";
+
 const Plans = ({ products }) => {
   const { logout } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState(products[2]);
   const [isBillingLoading, setBillingLoading] = useState(false);
+
+  const subscribeToPlan = (user) => {
+    if (!user) return;
+    loadCheckout(selectedPlan.prices[0].id);
+    setBillingLoading(true);
+  };
 
   return (
     <div>
@@ -64,13 +72,9 @@ const Plans = ({ products }) => {
             className={`mx-auto w-11/12 rounded bg-[#E50914] py-4 text-xl shadow hover:bg-[#f6121d] md:w-[420px] ${
               isBillingLoading && "opacity-60"
             }`}
-            // onClick={subscribeToPlan}
+            onClick={subscribeToPlan}
           >
-            {isBillingLoading ? (
-              <Loader color="text-gray-300" />
-            ) : (
-              "Subscribe"
-            )}
+            {isBillingLoading ? <Loader color="text-gray-300" /> : "Subscribe"}
           </button>
         </div>
       </main>

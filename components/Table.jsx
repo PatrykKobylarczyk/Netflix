@@ -1,8 +1,6 @@
-import { CheckIcon, XIcon } from '@heroicons/react/outline'
+import { CheckIcon, XIcon } from "@heroicons/react/outline";
 
 const Table = ({ products, selectedPlan }) => {
-  console.log(products);
-
   return (
     <table>
       <tbody className="divide-y divide-[gray] ">
@@ -10,7 +8,7 @@ const Table = ({ products, selectedPlan }) => {
           <td className="tableDataTitle">Monthly price</td>
           {products.map((product) => (
             <td
-              ket={product.id}
+              key={product.id}
               className={`tableDataFeature ${
                 selectedPlan.id === product.id
                   ? "text-[#e50914]"
@@ -26,7 +24,7 @@ const Table = ({ products, selectedPlan }) => {
           <td className="tableDataTitle">Video quality</td>
           {products.map((product) => (
             <td
-              ket={product.id}
+              key={product.id}
               className={`tableDataFeature ${
                 selectedPlan.id === product.id
                   ? "text-[#e50914]"
@@ -44,8 +42,8 @@ const Table = ({ products, selectedPlan }) => {
             <td
               className={`tableDataFeature ${
                 selectedPlan?.id === product.id
-                  ? 'text-[#E50914]'
-                  : 'text-[gray]'
+                  ? "text-[#E50914]"
+                  : "text-[gray]"
               }`}
               key={product.id}
             >
@@ -61,12 +59,12 @@ const Table = ({ products, selectedPlan }) => {
             <td
               className={`tableDataFeature ${
                 selectedPlan?.id === product.id
-                  ? 'text-[#E50914]'
-                  : 'text-[gray]'
+                  ? "text-[#E50914]"
+                  : "text-[gray]"
               }`}
               key={product.id}
             >
-              {product.metadata.portability === 'true' && (
+              {product.metadata.portability === "true" && (
                 <CheckIcon className="inline-block h-8 w-8" />
               )}
             </td>
