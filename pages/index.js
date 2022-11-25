@@ -14,6 +14,7 @@ import { modalState } from "../atoms/modalAtom";
 import Plans from "../components/Plans";
 import { getProducts } from "@stripe/firestore-stripe-payments";
 import payments from "../lib/stripe";
+import useSubscription from "../hooks/useSubscription";
 
 const Home = ({
   netflixOriginals,
@@ -26,16 +27,14 @@ const Home = ({
   trendingNow,
   products,
 }) => {
-  const { loading } = useAuth();
+  const { loading, user } = useAuth();
   const showModal = useRecoilValue(modalState);
-  const subscritpion = false;
-  
+  const subscritpion = useSubscription(user);
 
   //for slow internet connection
   if (loading || subscritpion === null) return null;
 
   if (!subscritpion) return <Plans products={products} />;
-
 
   return (
     <div
