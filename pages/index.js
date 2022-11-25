@@ -45,7 +45,7 @@ const Home = ({
       <Head>
         <title>Home - Netflix</title>
         <meta name="description" content="Netflix clone built with Next.js" />
-        <link rel="icon" href="/netflix-favicon.png" />
+        <link rel="icon" href="/images/netflix-favicon.png" />
       </Head>
 
       <Header />
