@@ -13,7 +13,6 @@ const useSubscription = (user) => {
 
     //Listener for subscription
     onCurrentUserSubscriptionUpdate(payments, (snapshot) => {
-      console.log(snapshot);
       setSubscription(
         snapshot.subscriptions.filter(
           (subscription) =>

@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/legacy/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import useAuth from '../hooks/useAuth'
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const [login, setLogin] = useState(false);
@@ -14,7 +14,6 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    console.log(data)
     if (login) {
       await signIn(data.email, data.password);
     } else {
