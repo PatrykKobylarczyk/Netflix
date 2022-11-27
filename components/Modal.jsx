@@ -1,4 +1,5 @@
 import {
+  CheckIcon,
   PlusIcon,
   ThumbUpIcon,
   VolumeOffIcon,
@@ -11,6 +12,17 @@ import { useRecoilState } from "recoil";
 import { modalState, movieState } from "../atoms/modalAtom";
 import ReactPlayer from "react-player/lazy";
 import { FaPlay } from "react-icons/fa";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
+import toast, { Toaster } from "react-hot-toast";
+import { db } from "../firebase";
+import useAuth from '../hooks/useAuth'
 
 const Modal = () => {
   const [showModal, setShowModal] = useRecoilState(modalState);
@@ -18,6 +30,19 @@ const Modal = () => {
   const [trailer, setTrailer] = useState("");
   const [genres, setGenres] = useState([]);
   const [muted, setMuted] = useState(true);
+  const [addedToList, setAddedToList] = useState(false);
+  const { user } = useAuth();
+  const [movies, setMovies] = useState([])
+
+  const toastStyle = {
+    background: 'white',
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    padding: '15px',
+    borderRadius: '9999px',
+    maxWidth: '1000px',
+  }
 
   useEffect(() => {
     if (!movie) return;
@@ -51,7 +76,58 @@ const Modal = () => {
     setShowModal(false);
   };
 
-  console.log(trailer);
+// Find all the movies in the user's list
+useEffect(() => {
+  if (user) {
+    return onSnapshot(
+      collection(db, 'customers', user.uid, 'myList'),
+      (snapshot) => setMovies(snapshot.docs)
+    )
+  }
+}, [db, movie.id])
+
+// Check if the movie is already in the user's list
+useEffect(
+  () =>
+    setAddedToList(
+      movies.findIndex((result) => result.data().id === movie.id) !== -1
+    ),
+  [movies]
+)
+
+
+  const handleList = async () => {
+    if (addedToList) {
+      await deleteDoc(
+        doc(db, 'customers', user.uid, 'myList', movie.id.toString())
+      )
+
+      toast(
+        `${movie.title || movie.original_name} has been removed from My List`,
+        {
+          duration: 3000,
+          style: toastStyle
+        }
+      )
+    } else {
+      await setDoc(
+        doc(db, 'customers', user.uid, 'myList', movie.id.toString()),
+        {
+          ...movie
+        }
+      )
+
+      toast(
+        `${movie.title || movie.original_name} has been added to My List.`,
+        {
+          duration: 3000,
+          style: toastStyle
+        }
+      )
+    }
+  }
+
+
   return (
     <MuiModal
       open={showModal}
@@ -59,6 +135,7 @@ const Modal = () => {
       className="fixed !top-7 left-0 right-0 z-50 mx-auto w-full max-w-4xl overflow-hidden overflow-y-scroll rounded-md scrollbar-hide "
     >
       <div className="bg-[#181818] rounded-lg">
+        <Toaster position="bottom-center" />
         <button
           onClick={handleClose}
           className="modalButton absolute right-5 top-5 !z-40 h-9 w-9 border-none bg-[#181818] hover:bg-[#181818]"
@@ -89,15 +166,27 @@ const Modal = () => {
                 Play
               </button>
 
-              <button className="modalButton w-8 h-8 lg:w-11 lg:h-11">
-                <PlusIcon className="w-4 h-4 lg:w-7 lg:h-7" />
+              <button
+                className={`modalButton w-8 h-8 lg:w-11 lg:h-11 ${
+                  addedToList ? "bg-green-400/50 hover:bg-green-400/50" : null
+                }`}
+                onClick={handleList}
+              >
+                {addedToList ? (
+                  <CheckIcon className="w-8 h-8" />
+                ) : (
+                  <PlusIcon className="w-4 h-4 lg:w-7 lg:h-7" />
+                )}
               </button>
 
               <button className="modalButton w-8 h-8 lg:w-11 lg:h-11">
                 <ThumbUpIcon className="w-4 h-4 lg:w-7 lg:h-7" />
               </button>
             </div>
-            <button className="modalButton w-8 h-8 lg:w-11 lg:h-11" onClick={() => setMuted(!muted)}>
+            <button
+              className="modalButton w-8 h-8 lg:w-11 lg:h-11"
+              onClick={() => setMuted(!muted)}
+            >
               {muted ? (
                 <VolumeOffIcon className="w-4 h-4 lg:w-6 lg:h-6" />
               ) : (

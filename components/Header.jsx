@@ -32,7 +32,7 @@ const Header = () => {
           className="cursor-pointer object-contain"
         />
 
-        <BasicMenu/>
+        <BasicMenu />
 
         <ul className=" hidden space-x-4 md:flex ">
           <li className="headerLink">Home</li>
@@ -47,7 +47,7 @@ const Header = () => {
         <SearchIcon className="hidden w-6 h-6 sm:inline" />
         <p className="hidden lg:inline">Kids</p>
         <BellIcon className="w-6 h-6" />
-        <Link href="/account" onClick={logout}>
+        <Link href="/account">
           <img
             src="https://rb.gy/g1pwyx"
             alt="account"
