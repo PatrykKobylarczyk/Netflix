@@ -21,6 +21,7 @@ const Account = ({ products }) => {
       <header className="bg-[#141414] ">
         <Link href="/">
           <img
+            alt="Netflix logo"
             src="https://rb.gy/ulxxee"
             width={120}
             height={120}
