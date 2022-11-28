@@ -22,7 +22,7 @@ import {
 } from "firebase/firestore";
 import toast, { Toaster } from "react-hot-toast";
 import { db } from "../firebase";
-import useAuth from '../hooks/useAuth'
+import useAuth from "../hooks/useAuth";
 
 const Modal = () => {
   const [showModal, setShowModal] = useRecoilState(modalState);
@@ -32,17 +32,17 @@ const Modal = () => {
   const [muted, setMuted] = useState(true);
   const [addedToList, setAddedToList] = useState(false);
   const { user } = useAuth();
-  const [movies, setMovies] = useState([])
+  const [movies, setMovies] = useState([]);
 
   const toastStyle = {
-    background: 'white',
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: '16px',
-    padding: '15px',
-    borderRadius: '9999px',
-    maxWidth: '1000px',
-  }
+    background: "white",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "16px",
+    padding: "15px",
+    borderRadius: "9999px",
+    maxWidth: "1000px",
+  };
 
   useEffect(() => {
     if (!movie) return;
@@ -76,57 +76,55 @@ const Modal = () => {
     setShowModal(false);
   };
 
-// Find all the movies in the user's list
-useEffect(() => {
-  if (user) {
-    return onSnapshot(
-      collection(db, 'customers', user.uid, 'myList'),
-      (snapshot) => setMovies(snapshot.docs)
-    )
-  }
-}, [db, movie.id])
+  // Find all the movies in the user's list
+  useEffect(() => {
+    if (user) {
+      return onSnapshot(
+        collection(db, "customers", user.uid, "myList"),
+        (snapshot) => setMovies(snapshot.docs)
+      );
+    }
+  }, [db, movie.id]);
 
-// Check if the movie is already in the user's list
-useEffect(
-  () =>
-    setAddedToList(
-      movies.findIndex((result) => result.data().id === movie.id) !== -1
-    ),
-  [movies]
-)
-
+  // Check if the movie is already in the user's list
+  useEffect(
+    () =>
+      setAddedToList(
+        movies.findIndex((result) => result.data().id === movie.id) !== -1
+      ),
+    [movies]
+  );
 
   const handleList = async () => {
     if (addedToList) {
       await deleteDoc(
-        doc(db, 'customers', user.uid, 'myList', movie.id.toString())
-      )
+        doc(db, "customers", user.uid, "myList", movie.id.toString())
+      );
 
       toast(
         `${movie.title || movie.original_name} has been removed from My List`,
         {
           duration: 3000,
-          style: toastStyle
+          style: toastStyle,
         }
-      )
+      );
     } else {
       await setDoc(
-        doc(db, 'customers', user.uid, 'myList', movie.id.toString()),
+        doc(db, "customers", user.uid, "myList", movie.id.toString()),
         {
-          ...movie
+          ...movie,
         }
-      )
+      );
 
       toast(
         `${movie.title || movie.original_name} has been added to My List.`,
         {
           duration: 3000,
-          style: toastStyle
+          style: toastStyle,
         }
-      )
+      );
     }
-  }
-
+  };
 
   return (
     <MuiModal
@@ -156,7 +154,7 @@ useEffect(
               pointerEvents: "none",
             }}
             playing
-            playsinline
+            playsInline
             muted={muted}
           />
           <div className="absolute bottom-4 lg:bottom-10 flex w-full items-center justify-between px-10">
